@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+
+const apiKey = process.env.REACT_APP_API_KEY;
 
 const Form = ({ targetCalories, setTargetCalories, exclude, setExclude, diet, setDiet, timeFrame, setTimeFrame, handleSubmit }) => {
     return (
@@ -31,13 +33,16 @@ const Form = ({ targetCalories, setTargetCalories, exclude, setExclude, diet, se
                 value={exclude}
                 onChange={(e) => setExclude(e.target.value)}
             />
-            <label>Day[s]</label>
-            <input 
-                type="number"
+            <label>Time Frame</label>
+            <select 
+                type="text"
                 id="timeFrame"
                 value={timeFrame}
                 onChange={(e) => setTimeFrame(e.target.value)}
-            />
+            >
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+            </select>
             <button className="btn" type="submit">Submit</button>
         </form>
     );
@@ -52,18 +57,22 @@ const MealPlanner = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('https://api.spoonacular.com/mealplanner/generate', {
+        axios.get(`https://api.spoonacular.com/mealplanner/generate?apiKey=${apiKey}`, {
+            params: {
             targetCalories: targetCalories,
             exclude: exclude,
             diet: diet,
-            timeFrame: timeFrame
-        })
-            .then(res => {
-                setData(res.data);
-            })
-            .catch(err => {
-                console.error(err)
-            })
+            timeFrame: timeFrame,
+            apiKey: apiKey
+  }
+})
+  .then(res => {
+    setData(res.data);
+  })
+  .catch(err => {
+    console.error(err)
+  })
+
     }
 
     return (
