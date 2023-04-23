@@ -57,7 +57,7 @@ const MealPlanner = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.get(`https://api.spoonacular.com/mealplanner/generate?apiKey=${apiKey}`, {
+        axios.get(`https://api.spoonacular.com/mealplanner/generate`, {
             params: {
             targetCalories: targetCalories,
             exclude: exclude,
@@ -65,7 +65,7 @@ const MealPlanner = () => {
             timeFrame: timeFrame,
             apiKey: apiKey
   }
-})
+},[targetCalories, exclude, diet, timeFrame, apiKey])
   .then(res => {
     setData(res.data);
   })
