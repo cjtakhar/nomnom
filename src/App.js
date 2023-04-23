@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Router basename="/nomnom">
         <Routes>
           <Route path="/" element={ < Dash /> } />
           <Route path="/about" element={<h1>About</h1>} />
