@@ -2,15 +2,6 @@ body {
   margin: 0 auto;
 }
 
-.main-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  text-align: center;
-}
-
 .first-container {
   display: flex;
   justify-content: center;
@@ -50,4 +41,26 @@ form label, form input, form select {
   cursor: pointer;
   border-radius: 25px;
 }
+
+/* For devices with screen width between 320px and 767px, such as iPhone */
+@media (min-width: 320px) and (max-width: 767px) {
+  .first-container {
+    width: 90%;
+  }
+}
+
+/* For devices with screen width between 768px and 1023px, such as iPad */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .first-container {
+    width: 70%;
+  }
+}
+
+/* For devices with screen width of 1024px or larger, such as large desktop screens */
+@media (min-width: 1024px) {
+  .first-container {
+    width: 50%;
+  }
+}
+
 

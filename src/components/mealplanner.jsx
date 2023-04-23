@@ -1,41 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const Form = ({ targetCals, setTargetCals, dietPreference, setDietPreference, dietRestrictions, setDietRestrictions, days, setDays, handleSubmit }) => {
+const Form = ({ targetCalories, setTargetCalories, exclude, setExclude, diet, setDiet, timeFrame, setTimeFrame, handleSubmit }) => {
     return (
         <form onSubmit={handleSubmit}>
             <label>Target Calories</label>
             <input
                 type="number" 
-                id="targetCals"
-                value={targetCals}
-                onChange={(e) => setTargetCals(e.target.value)}
+                id="targetCalories"
+                value={targetCalories}
+                onChange={(e) => setTargetCalories(e.target.value)}
             />
             <label>Diet Preference</label>        
             <select
                 id="dietPreference"
-                value={dietPreference}
-                onChange={(e) => setDietPreference(e.target.value)}
+                value={diet}
+                onChange={(e) => setDiet(e.target.value)}
             >
-                <option value="Balanced">Balanced</option>
+                <option value="Whole">Whole</option>
                 <option value="Vegetarian">Vegetarian</option> 
                 <option value="Vegan">Vegan</option>
-                <option value="Keto">Keto</option> 
+                <option value="Ketogenic">Keto</option> 
                 <option value="Paleo">Paleo</option>
-                <option value="High Protein">High Protein</option> 
+                <option value="Primal">High Protein</option> 
             </select>
             <label>Diet Restrictions</label>
             <input 
                 type="text"
-                id="dietRestrictions"
-                value={dietRestrictions}
-                onChange={(e) => setDietRestrictions(e.target.value)}
+                id="diet"
+                value={exclude}
+                onChange={(e) => setExclude(e.target.value)}
             />
-            <label>Days</label>
+            <label>Day[s]</label>
             <input 
                 type="number"
-                id="days"
-                value={days}
-                onChange={(e) => setDays(e.target.value)}
+                id="timeFrame"
+                value={timeFrame}
+                onChange={(e) => setTimeFrame(e.target.value)}
             />
             <button className="btn" type="submit">Submit</button>
         </form>
@@ -43,14 +44,26 @@ const Form = ({ targetCals, setTargetCals, dietPreference, setDietPreference, di
 }
 
 const MealPlanner = () => {
-    const [targetCals, setTargetCals] = useState('');
-    const [dietPreference, setDietPreference] = useState('Balanced');
-    const [dietRestrictions, setDietRestrictions] = useState('');
-    const [days, setDays] = useState('');
+    const [targetCalories, setTargetCalories] = useState('');
+    const [exclude, setExclude] = useState('');
+    const [diet, setDiet] = useState('Balanced');
+    const [timeFrame, setTimeFrame] = useState('');
+    const [data, setData] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(targetCals, dietPreference, dietRestrictions, days);
+        axios.post('https://api.spoonacular.com/mealplanner/generate', {
+            targetCalories: targetCalories,
+            exclude: exclude,
+            diet: diet,
+            timeFrame: timeFrame
+        })
+            .then(res => {
+                setData(res.data);
+            })
+            .catch(err => {
+                console.error(err)
+            })
     }
 
     return (
@@ -58,19 +71,23 @@ const MealPlanner = () => {
             <div className="mp-container">
                 <h1 className="meal-planner-title">Meal Planner</h1>
                 <Form 
-                    targetCals={targetCals} 
-                    setTargetCals={setTargetCals} 
-                    dietPreference={dietPreference} 
-                    setDietPreference={setDietPreference} 
-                    dietRestrictions={dietRestrictions} 
-                    setDietRestrictions={setDietRestrictions} 
-                    days={days} 
-                    setDays={setDays} 
+                    targetCalories={targetCalories} 
+                    setTargetCalories={setTargetCalories} 
+                    exclude={exclude} 
+                    setExclude={setExclude} 
+                    diet={diet} 
+                    setDiet={setDiet} 
+                    timeFrame={timeFrame} 
+                    setTimeFrame={setTimeFrame} 
                     handleSubmit={handleSubmit} 
                 />
+                {data && (
+                    <pre>{JSON.stringify(data, null, 2)}</pre>
+                )}
             </div>
         </div>
     );
 }
 
 export default MealPlanner;
+
