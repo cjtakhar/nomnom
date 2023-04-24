@@ -19,6 +19,7 @@ const Form = ({ targetCalories, setTargetCalories, exclude, setExclude, diet, se
                 value={diet}
                 onChange={(e) => setDiet(e.target.value)}
             >
+                <option value="null">None</option>
                 <option value="Whole">Whole</option>
                 <option value="Vegetarian">Vegetarian</option> 
                 <option value="Vegan">Vegan</option>
@@ -91,8 +92,22 @@ const MealPlanner = () => {
                     handleSubmit={handleSubmit} 
                 />
                 {data && (
-                    <pre>{JSON.stringify(data, null, 2)}</pre>
-                )}
+  <div>
+    <h2>Meals:</h2>
+    <ul>
+      {data.meals.map((meal) => (
+        <li key={meal.id}>
+          {meal.title} - {meal.servings} servings - ready in {meal.readyInMinutes} minutes
+        </li>
+      ))}
+    </ul>
+    <h2>Nutrients:</h2>
+    <p>Calories: {data.nutrients.calories}</p>
+    <p>Protein: {data.nutrients.protein}</p>
+    <p>Fat: {data.nutrients.fat}</p>
+    <p>Carbohydrates: {data.nutrients.carbohydrates}</p>
+  </div>
+)}
             </div>
         </div>
     );
