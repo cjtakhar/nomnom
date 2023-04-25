@@ -42,7 +42,6 @@ const Form = ({ targetCalories, setTargetCalories, exclude, setExclude, diet, se
                 onChange={(e) => setTimeFrame(e.target.value)}
             >
                 <option value="day">Day</option>
-                <option value="week">Week</option>
             </select>
             <button className="btn" type="submit">Submit</button>
         </form>
