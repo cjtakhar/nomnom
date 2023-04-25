@@ -19,7 +19,7 @@ const Form = ({ targetCalories, setTargetCalories, exclude, setExclude, diet, se
                 value={diet}
                 onChange={(e) => setDiet(e.target.value)}
             >
-                <option value="null">None</option>
+                <option value="Balanced">Balanced</option>
                 <option value="Whole">Whole</option>
                 <option value="Vegetarian">Vegetarian</option> 
                 <option value="Vegan">Vegan</option>
